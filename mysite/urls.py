@@ -15,9 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from polls import views as polls_views
+
+# 第二种url添加方式
+# extra_patterns = [
+#     path('', polls_views.index, name='index'),
+#     path('<int:question_id>/', polls_views.detail, name='detail'),
+#     path('<int:question_id>/results', polls_views.results, name='results'),
+#     path('<int:question_id>/vote', polls_views.vote, name='vote'),
+#
+# ]
 
 urlpatterns = [
     path('polls/', include('polls.urls')),
+    # path('polls/', include(extra_patterns)),
     path('admin/', admin.site.urls),
 
 ]
