@@ -111,3 +111,6 @@ class QuestionIndexViewTests(TestCase):
     #         [question2, question1],
     #     )
     #     print(' end-----------------')
+
+#  产生随机数
+import random
