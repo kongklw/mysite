@@ -23,11 +23,11 @@ class SnippetSerializer(serializers.ModelSerializer):
 
     # 方式2 使用模型类序列化器
 
-    owner = serializers.ReadOnlyField(source='owner.username')
+    # owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Snippet
-        fields = ('id', 'title', 'code', 'linenos', 'language', 'style')
+        fields = ('id', 'created', 'title', 'code', 'linenos', 'language', 'style')
 
     # def create(self, validated_data):
     #     """

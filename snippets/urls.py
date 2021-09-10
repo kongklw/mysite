@@ -13,6 +13,8 @@ urlpatterns = [
     url('schema/$', schema_view),
     url(r'snippets/$', views.SnippetsList.as_view()),
     url(r'snippets/(?P<pk>[0-9]+)/$', views.SnippetsDetail.as_view()),
-    url(r'^users/$', views.UserList.as_view()),
-    url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
+    url(r'once', views.once_request),
+    url(r'upload', views.FileUploadView.as_view()),
+    # url(r'^users/$', views.UserList.as_view()),
+    # url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
 ]

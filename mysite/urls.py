@@ -42,5 +42,6 @@ urlpatterns = [
     # path('polls/', include(extra_patterns)),
     path('admin/', admin.site.urls),
     path(r'', include('snippets.urls')),
+    path(r'', include('prc_cache.urls')),
 
 ]

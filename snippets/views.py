@@ -11,19 +11,58 @@ from rest_framework import status
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from rest_framework import generics, permissions
+from rest_framework.decorators import api_view, throttle_classes
+from rest_framework.throttling import UserRateThrottle
 
 
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+# class UserList(generics.ListAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#
+#
+# class UserDetail(generics.RetrieveAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
 
 
-class UserDetail(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+# class UserList(APIView):
+#
+#     def get(self, request):
+#         print('users get')
+#
+#         usernames = [username for username in User.objects.all()]
+#         print(usernames)
+#
+#         return Response(usernames)
 
 
 # Create your views here.
+
+# 创建一个请求限制的视图
+
+
+class FileUploadView(APIView):
+
+    def post(self, request):
+        file = request.data['file']
+        print(request.stream)
+        print(file)
+
+        return Response({'msg': '上传成功'})
+
+
+class OnceRequestDay(UserRateThrottle):
+    rate = '2/m'
+
+
+@api_view(http_method_names=['GET', 'POST'])
+@throttle_classes([OnceRequestDay])
+def once_request(request):
+    if request.method == 'POST':
+        return Response({'method': 'post', 'msg': request.data})
+
+    return Response({'method': 'get', 'msg': 'hello world'})
+
 
 # 类视图方式
 '''
@@ -43,8 +82,26 @@ class SnippetsList(APIView):
         serializer.save(owner=self.request.user)
 
     def get(self, request):
+
+        # print(request.user)
+        # print(request.authenticators)
+        # print('-----------')
+        # print('data', request.data)
+        # print('query params', request.query_params)
+        # print('parsers', request.parsers)
+        # print('accepted_renderer', request.accepted_renderer)
+        # print('accepted_media_type', request.accepted_media_type)
+        # print('user', request.user)
+        # print('auth', request.auth)
+        # print('authenticators', request.authenticators)
+        # print('method', request.method)
+        # print('content type', request.content_type)
+        # print('stream', request.stream)
+        # # print('meta', request.META)
+        # print('session', request.session)
         snippet = Snippet.objects.all()
         serializer = SnippetSerializer(snippet, many=True)
+        print(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
